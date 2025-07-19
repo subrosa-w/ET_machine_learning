@@ -1,0 +1,33 @@
+      // Headshots por ronda
+      const headshotsByRound = {};
+      this.csvData.forEach(row => {
+        const round = row.RoundId;
+        const headshots = parseInt(row.RoundHeadshots || 0);
+        if (round) {
+          headshotsByRound[round] = (headshotsByRound[round] || 0) + headshots;
+        }
+      });
+      const roundLabels = Object.keys(headshotsByRound);
+      const roundData = Object.values(headshotsByRound);
+      if (roundLabels.length && roundData.some(x => x > 0)) {
+        this.headshotsByRoundChart = {
+          chartData: {
+            labels: roundLabels,
+            datasets: [
+              {
+                label: 'Headshots por ronda',
+                fill: true,
+                borderColor: config.colors.primary,
+                data: roundData,
+              },
+            ],
+          },
+          extraOptions: chartConfigs.purpleChartOptions,
+          gradientStops: [1, 0.2, 0],
+        };
+      } else {
+        this.headshotsByRoundChart = null;
+      }
+
+
+      
